@@ -1,13 +1,23 @@
 import React, { PureComponent } from "react";
-import Header from "../../components/Header/Header";
-import LoginForm from '../../components/LoginForm/LoginForm'
-
-export default class HomePage extends PureComponent {
+import Banner from "../../components/Banner/Banner";
+interface HomeSate {
+    loading?: boolean;
+}
+export default class HomePage extends PureComponent<{},HomeSate> {
+    state: HomeSate = {
+            loading: false
+    } 
+    componentDidMount() {
+         this.setState({loading: true})
+    }
     render(){
+        const {loading} = this.state;
         return(
             <React.Fragment>
-                <Header />
-                <LoginForm />
+                {
+                    loading ?  <Banner /> : "loading....."
+                }
+               
             </React.Fragment>
         );
     }

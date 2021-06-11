@@ -17,14 +17,14 @@ interface HeaderState {
     user: boolean;
 }
 
-export default class Header extends PureComponent {
+export default class HeaderComponent extends PureComponent {
     state: HeaderState = {
         current: "home",
         user: false
     };
     private handleClick = (e: any) => {
         // console.log(e.key);
-        this.setState(e.key);
+        this.setState({current: e.key});
     };
 
     render(): ReactNode {
@@ -33,11 +33,11 @@ export default class Header extends PureComponent {
             <div className="header">
                     <Menu onClick={this.handleClick} mode="horizontal" style={{position: 'relative', display: 'flex', justifyContent: 'left'}}>
                         <Item className="logo">
-                            <img src='/img/logo.png' alt="logo"/>
+                            <img src='/img/logo.png' alt="logo"/> 
                         </Item>
                         <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal" style={{position: 'absolute', top: 4, right: 0}}>
                         <Item key="home" icon={<HomeOutlined />}>
-                            <Link to="/home">Home</Link>
+                            <Link to="/">Home</Link>
                         </Item>
 
                         <Item key="quiz" icon={<FireOutlined />}>

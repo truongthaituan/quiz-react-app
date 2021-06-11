@@ -1,0 +1,55 @@
+.imgChallenge {
+    width: 100%;
+    height: auto;
+    /* box-shadow: 0 0 20px 0 rgb(29 31 89 / 10%); */
+    padding: 20px;
+    margin:  100px 0;
+}
+.wrap-form-head-register {
+    display: flex;
+    justify-content: center;
+    padding: 45px;
+}
+
+.wrap-form-head-register > .form-head-register {
+    border-radius: 20px;
+    box-shadow: 0 0 20px 0 rgb(29 31 89 / 20%);
+    padding: 45px;
+    position: relative;
+    z-index: 1;
+    width: 80%;
+}
+
+#login-form-button {
+    width: 100%;
+    border-radius: 22px;
+    height: auto;
+    background: linear-gradient( 90deg,#2c31cf 0%,#5419dd 100%);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+#normal_login_username {
+    line-height: 24px;
+    padding: 5px;
+    margin-bottom: 0;
+    height: auto;
+}
+#normal_login_password {
+    line-height: 24px;
+    padding: 5px;
+    margin-bottom: 0;
+    height: auto;
+}
+#normal_login_repassword {
+    line-height: 24px;
+    padding: 5px;
+    margin-bottom: 0;
+    height: auto;
+}

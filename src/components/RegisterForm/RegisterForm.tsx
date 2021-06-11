@@ -1,8 +1,13 @@
 import React, { ReactNode } from "react";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox  } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
-export default class LoginForm extends React.PureComponent<any, {}> {
+interface FormValuesState {
+    email?: string;
+    password?: string;
+    repassword?: string;
+  }
+export default class RegisterForm extends React.PureComponent<FormValuesState, {}> {
     render(): ReactNode {
         return(
             <>
@@ -22,6 +27,16 @@ export default class LoginForm extends React.PureComponent<any, {}> {
                     placeholder="Password"
                     />
                 </Form.Item>
+                <Form.Item
+                    name="repassword"
+                    rules={[{ required: true, message: 'Please input your Confirm Password!' }]}
+                >
+                    <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Confirm Password"
+                    />
+                </Form.Item>
                 <Form.Item>
                     <Form.Item name="remember" valuePropName="unchecked" noStyle>
                     <Checkbox>Remember me</Checkbox>
@@ -33,7 +48,7 @@ export default class LoginForm extends React.PureComponent<any, {}> {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" id="login-form-button">
-                    Log in
+                   Register
                     </Button>
                 </Form.Item>
             </>
