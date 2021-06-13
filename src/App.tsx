@@ -1,34 +1,25 @@
-import { PureComponent, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import './App.css';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import { Layout } from "antd";
+import {Switch, Route} from 'react-router-dom';
 import HomePage from "./pages/Home/HomePage";
-import QuizPage from "./pages/QuizPage/QuizPage";
-import HeaderComponent from "./components/Header/Header";
-import FooterComponent from "./components/Footer/Footer";
-
-interface AppState {
-  user?: string;
-  showUser?: boolean;
-}
-
-export default class App extends PureComponent {
-  state: AppState = {
-    user: undefined,
-  };
+import QuizPage from "./pages/QuizPage/QuizPage"
+import Layout from "./components/hoc/Layout/Layout";
+import RequirePage from "./pages/RequirePage/RequirePage";
+import PrivateRoute from "./components/hoc/PrivateRoute/PrivateRoute";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+export default class App extends React.Component {
   render(): ReactNode {
-    console.log(process.env.REACT_APP_API_ENDPOINT)
      let routes = (
       <Switch>
-       <Route path="/" exact component={HomePage} />
-       <Route path="/quiz" exact component={QuizPage} />  
+       <Route path={"/"} exact component={HomePage} />
+       <PrivateRoute path="/quiz" exact component={QuizPage} />  
+       <Route path="/require" exact component={RequirePage} />  
+       <Route component={NotFoundPage} />
       </Switch>
   );
     return (
       <Layout>
-          <HeaderComponent />
-          {routes}
-          <FooterComponent />
+         {routes}
       </Layout>
     );
   }

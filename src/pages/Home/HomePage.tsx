@@ -1,24 +1,39 @@
-import React, { PureComponent } from "react";
-import Banner from "../../components/Banner/Banner";
+import React, { PureComponent, ReactNode } from 'react'
+import { Col, Row } from "antd";
+import './HomePage.css'
+import LoginForm from '../../components/LoginForm/LoginForm';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { authService } from '../../services/AuthenticationService';
 interface HomeSate {
     loading?: boolean;
 }
-export default class HomePage extends PureComponent<{},HomeSate> {
+interface RouteProps extends RouteComponentProps{
+   
+}
+interface HomePageProps {
+}
+class HomePage extends PureComponent<RouteProps & HomePageProps, HomeSate> {
     state: HomeSate = {
             loading: false
     } 
     componentDidMount() {
-         this.setState({loading: true})
+        console.log(authService.isAuthenticated())
     }
-    render(){
-        const {loading} = this.state;
+    render(): ReactNode{
         return(
             <React.Fragment>
-                {
-                    loading ?  <Banner /> : "loading....."
-                }
-               
+                <div className="banner">
+                    <Row>
+                        <Col xs={24} xl={12}>
+                            <img src = "/img/react_challenge.png" alt='React Challenges' className='imgChallenge'/>
+                        </Col>
+                        <Col xs={24} xl={12}>
+                            <LoginForm />
+                        </Col>
+                    </Row>
+                </div>
             </React.Fragment>
         );
     }
 }
+export default withRouter(HomePage)

@@ -1,90 +1,114 @@
 import React, { PureComponent, ReactNode } from "react";
-import { Menu } from "antd";
+import { Input, Menu, Modal } from "antd";
 import {
     HomeOutlined,
     FireOutlined,
     UserOutlined,
-    CalendarOutlined,
-    UserAddOutlined,
+    LockOutlined,
+    LogoutOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import './Header.css';
+import { authService } from "../../services/AuthenticationService";
+import swal from "sweetalert";
 
 const { Item } = Menu;
 
 interface HeaderState {
     current: string;
-    user: boolean;
+    modalVisible: boolean;
+    username: string;
+    password: string;
 }
 
-export default class HeaderComponent extends PureComponent {
+interface RouteProps extends RouteComponentProps {}
+interface HeaderProps {
+    isLoggedIn?: boolean;
+    user?: any;
+    handleLogout: () => void;
+ }
+
+class HeaderComponent extends PureComponent<HeaderProps & RouteProps, HeaderState> {
     state: HeaderState = {
         current: "home",
-        user: false
+        modalVisible: false,
+        username: "",
+        password: ""
     };
     private handleClick = (e: any) => {
-        // console.log(e.key);
         this.setState({current: e.key});
     };
-
+    private openModal = () => this.setState({ modalVisible: true });
+    private closeModal = () => this.setState({ modalVisible: false });
+    private onChangeUsername = (event: any) => this.setState({ username : event.target.value});
+    private onChangePassword = (event: any) => this.setState({ password : event.target.value});
+    private onSubmit = () => {
+      this.closeModal();
+      let history = this.props.history;
+      if (authService.login(this.state.username, this.state.password)) {
+          swal("Login successfully!", "You can fight now!", "success");
+          setTimeout(() => {
+              history.push('/quiz');
+          }, 1000);
+      } else {
+          swal("Login failed!", "Authentication failed. Please check your username/password", "warning");
+          this.openModal()
+      }
+    };
     render(): ReactNode {
-        const { current, user } = this.state;
+        const { current, modalVisible } = this.state;
         return (
             <div className="header">
-                    <Menu onClick={this.handleClick} mode="horizontal" style={{position: 'relative', display: 'flex', justifyContent: 'left'}}>
-                        <Item className="logo">
+                    <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal" >
+                        <Item key='logo' id="logo">
                             <img src='/img/logo.png' alt="logo"/> 
                         </Item>
-                        <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal" style={{position: 'absolute', top: 4, right: 0}}>
-                        <Item key="home" icon={<HomeOutlined />}>
+                        {!this.props.isLoggedIn && (
+                            <Item key="home" icon={<HomeOutlined />} >
                             <Link to="/">Home</Link>
-                        </Item>
-
+                            </Item>
+                        )}
                         <Item key="quiz" icon={<FireOutlined />}>
                             <Link to="/quiz">Quiz Challenge</Link>
                         </Item>
 
-                        <Item key="view" icon={<CalendarOutlined />} > 
-                            <Link to="/result">View Result</Link>
-                        </Item>
-
-                        {!user && (
-                            <Item key="register" icon={<UserAddOutlined />}>
-                                <Link to="/register">Register</Link>
+                        {!this.props.isLoggedIn && (
+                            <Item key="login" icon={<UserOutlined />} style={{float: 'right'}} >
+                                <a onClick={this.openModal}>Login</a>
                             </Item>
                         )}
-
-                        {!user && (
-                            <Item key="login" icon={<UserOutlined />} >
-                                <Link to="/login">Login</Link>
-                            </Item>
+                         {this.props.isLoggedIn && (
+                              <Item key="user" icon={<UserOutlined />} style = {{cursor:'not-allowed', pointerEvents:'none' }}>
+                                  Hello {this.props.user}
+                          </Item>
+                        )} 
+                          {this.props.isLoggedIn && (
+                              <Item key="logout" icon={<LogoutOutlined />}  >
+                              <Link to="/" onClick={this.props.handleLogout}>Logout</Link>
+                          </Item>
                         )}
-                            {/* {user && (
-                            <SubMenu
-                                icon={<SettingOutlined />}
-                                title={user.email && user.email.split("@")[0]}
-                                className="float-right"
-                            >
-                                {user && user.role === "subscriber" && (
-                                <Item>
-                                    <Link to="/user/history">Dashboard</Link>
-                                </Item>
-                                )}
-                    
-                                {user && user.role === "admin" && (
-                                <Item>
-                                    <Link to="/admin/dashboard">Dashboard</Link>
-                                </Item>
-                                )}
-                    
-                                <Item icon={<LogoutOutlined />} onClick={logout}>
-                                Logout
-                                </Item>
-                            </SubMenu>
-                            )}  */}
-                    </Menu> 
-                </Menu>       
+                        </Menu>  
+                        <Modal title="Login to your account" 
+                        visible={modalVisible} 
+                        onCancel={this.closeModal} 
+                        onOk={this.onSubmit} width='500px' >
+                        <Input name='username'
+                            type='text'
+                            placeholder="user"
+                            prefix={<UserOutlined />}
+                            onPressEnter={this.onSubmit}
+                            onChange={this.onChangeUsername}
+                        />
+                        <Input name='password'
+                            type='password'
+                            placeholder="123456"
+                            prefix={<LockOutlined />}
+                            onPressEnter={this.onSubmit}
+                            onChange={this.onChangePassword}
+                        />
+                        </Modal>
             </div>
         );
     }
 }
+export default withRouter(HeaderComponent)

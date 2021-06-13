@@ -1,0 +1,23 @@
+.requirePage {
+    background-color: #fff;
+    min-height: 92vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 0.8vmin);
+    color: black;
+}
+
+#moveToLogin {
+    width: 25%;
+    border-radius: 22px;
+    height: auto;
+    background: linear-gradient( 90deg,#2c31cf 0%,#5419dd 100%);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px;
+    margin: 10px 0;
+    color: cornsilk;
+    text-align: center;
+}
