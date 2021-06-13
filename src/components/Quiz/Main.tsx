@@ -5,6 +5,7 @@ import { QuestionModel } from '../../services/QuestionsService/QuestionModel';
 import { questionService } from '../../services/QuestionsService/QuestionService';
 import Answers from './Answers';
 import Popup from './Popup';
+import Confetti from 'react-confetti';
 interface MainState {
     count: number;
     total: number;
@@ -127,7 +128,9 @@ class Main extends Component<{}, MainState> {
     render(): ReactNode {
         return (
             <div className="container">
-
+                {
+                    this.state.isFinished ? <Confetti style={{width: '100%', height: '100%'}}  /> : null
+                }
                 <Popup style={{ display: this.state.displayPopup }}
                     score={this.state.score}
                     total={this.state.total}
