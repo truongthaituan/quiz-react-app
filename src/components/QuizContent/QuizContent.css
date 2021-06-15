@@ -203,3 +203,8 @@
     margin: 20px 10% 0;
 }
 
+.spin-loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}

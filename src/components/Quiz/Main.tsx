@@ -6,7 +6,9 @@ import { questionService } from '../../services/QuestionsService/QuestionService
 import Answers from './Answers';
 import Popup from './Popup';
 import Confetti from 'react-confetti';
+import { Spin } from 'antd';
 interface MainState {
+    isLoaded: boolean;
     count: number;
     total: number;
     showButton: boolean;
@@ -25,6 +27,7 @@ interface MainState {
 class Main extends Component<{}, MainState> {
     arr: AnswerModel[] = []
     state: MainState = {
+        isLoaded: false,
         count: 0,
         total: 0,
         showButton: false,
@@ -46,7 +49,8 @@ class Main extends Component<{}, MainState> {
                 const questions = response as QuestionModel[]
                 this.setState({
                     questionsArr: questions,
-                    total: questions.length
+                    total: questions.length,
+                    isLoaded: true
                 })
                 this.insertData(count);
             }).catch(err => console.log(err))
@@ -113,11 +117,6 @@ class Main extends Component<{}, MainState> {
         });
     }
 
-    handleIncreaseScore = () => {
-        this.setState({
-            score: this.state.score + 1
-        });
-    }
 
     handleAnswerList = (obj: any) => {
         this.arr.push(obj)
@@ -127,43 +126,45 @@ class Main extends Component<{}, MainState> {
 
     render(): ReactNode {
         return (
-            <div className="container">
+            <>
                 {
-                    this.state.isFinished ? <Confetti style={{width: '100%', height: '100%'}}  /> : null
-                }
-                <Popup style={{ display: this.state.displayPopup }}
-                    score={this.state.score}
-                    total={this.state.total}
-                    isFinished={this.state.isFinished}
-                    startQuiz={this.handleStartQuiz}
-                />
+                    !this.state.isLoaded ? <Spin size="large" className='spin-loading' /> :
+                        <div className="container">
+                            {
+                                this.state.isFinished ? <Confetti style={{ width: '100%', height: '100%' }} /> : null
+                            }
+                            <Popup style={{ display: this.state.displayPopup }}
+                                score={this.state.score}
+                                total={this.state.total}
+                                isFinished={this.state.isFinished}
+                                startQuiz={this.handleStartQuiz}
+                            />
 
-                <div className="row">
-                    <div className="col-lg-12 col-md-10">
-                        <div id="question">
-                            <h4 className="bg-light">Question {this.state.count}/{this.state.total}</h4>
-                            <p>{this.state.question}</p>
+                            <div className="row">
+                                <div className="col-lg-12 col-md-10">
+                                    <div id="question">
+                                        <h4 className="bg-light">Question {this.state.count}/{this.state.total}</h4>
+                                        <p>{this.state.question}</p>
+                                    </div>
+                                    <Answers
+                                        answers={this.state.answers}
+                                        currentAnswer={this.state.currentAnswer}
+                                        showButton={this.handleShowButton}
+                                        isAnswered={this.state.questionAnswered}
+                                        handleAnswerList={this.handleAnswerList}
+                                    />
+                                    <div id="submit">
+                                        {this.state.showButton ?
+                                            <button className="fancy-btn"
+                                                onClick={this.nextQuestion} >
+                                                {this.state.count === this.state.total ? 'Finish quiz' : 'Next question'}
+                                            </button> : <span></span>}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <Answers
-                            answers={this.state.answers}
-                            currentAnswer={this.state.currentAnswer}
-                            showButton={this.handleShowButton}
-                            isAnswered={this.state.questionAnswered}
-                            handleAnswerList={this.handleAnswerList}
-                        />
-                        <div id="submit">
-                            {this.state.showButton ?
-                                <button className="fancy-btn"
-                                    onClick={this.nextQuestion} >
-                                    {this.state.count === this.state.total ? 'Finish quiz' : 'Next question'}
-                                </button> : <span></span>}
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+                 }
+            </>
         )
     }
 }
