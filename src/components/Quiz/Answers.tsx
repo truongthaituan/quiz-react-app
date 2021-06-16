@@ -27,8 +27,6 @@ class Answers extends PureComponent<AnswersProps, AnswersSate> {
             let answer = (elem.dataset.id);
             let updatedClassNames = this.state.classNames;
             let obj = {"id": this.props.currentAnswer, "choice": answer}
-            console.log(this.props.currentAnswer)
-            console.log(answer)
             updatedClassNames[answer] = 'selected';            
             this.setState({
                 classNames: updatedClassNames,
@@ -49,12 +47,6 @@ class Answers extends PureComponent<AnswersProps, AnswersSate> {
     render() {
         let { answers } = this.props;
         let { classNames } = this.state;
-        
-        // let transition = {
-        //     transitionName: "example",
-        //     transitionEnterTimeout: 500,
-        //     transitionLeaveTimeout: 300
-        // }
         
         return (
             <div id="answers">

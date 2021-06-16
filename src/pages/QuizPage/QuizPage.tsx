@@ -6,9 +6,6 @@ interface QuizPageProps {
     username?: string;
 }
 export default class QuizPage extends PureComponent<QuizPageProps, {}> {
-    componentDidMount = () => {
-        console.log(authService.authInfoValue)
-    }
     render(): ReactNode {
         return(
             <>

@@ -99,25 +99,6 @@
     color: #fff;   
 }
 
-#answers li.wrong {
-    border-color: #dc0a0a;
-    color: #dc0a0a;
-    background-color: #dc0a0a;
-    animation: shake 1.0s cubic-bezier(.36,.07,.19,.97) both;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-}
-
-#answers li.wrong span {
-    background-color: #dc0a0a;
-}
-
-#answers li.wrong p {
-    color: #fff;
-    background-color: #dc0a0a;
-}
-
 #submit {
     text-align: center;
     margin: 20px 0;

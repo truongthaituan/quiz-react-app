@@ -26,9 +26,6 @@ class Layout extends PureComponent<Props, LayoutState> {
             })
         })
     }
-    componentDidUpdate = () => {
-        console.log(authService.authInfoValue())
-    }
     handleLogout = () => {
         authService.logout();
         this.setState({

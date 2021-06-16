@@ -16,9 +16,6 @@ class HomePage extends PureComponent<RouteProps & HomePageProps, HomeSate> {
     state: HomeSate = {
             loading: false
     } 
-    componentDidMount() {
-        console.log(authService.isAuthenticated())
-    }
     render(): ReactNode{
         return(
             <React.Fragment>

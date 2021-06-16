@@ -24,7 +24,6 @@ class Popup extends PureComponent<PopupProps, PopupState> {
         };
         
         componentDidUpdate = () => {
-            console.log(this.props.isFinished)
             if(this.props.isFinished){
                 this.setState({
                     text: 'You have completed the quiz. <br /> You got: <strong>' + this.props.score + 

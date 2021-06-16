@@ -101,7 +101,7 @@ class Main extends Component<{}, MainState> {
                         score: this.state.total - (rsp.incorrectAnswers).length,
                     })
                 }
-            })
+            }).catch(err => console.log(err))
         } else {
             this.insertData(count);
             this.setState({
@@ -121,7 +121,6 @@ class Main extends Component<{}, MainState> {
     handleAnswerList = (obj: any) => {
         this.arr.push(obj)
         this.setState({ listAnswer: this.arr })
-        console.log(this.arr)
     }
 
     render(): ReactNode {
